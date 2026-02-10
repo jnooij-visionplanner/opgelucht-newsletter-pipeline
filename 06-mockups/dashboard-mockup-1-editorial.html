@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Opgelucht — Editorial Dashboard — Mockup 1: Editorial Magazine</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --paper: #faf8f4;
+    --cream: #f0ece4;
+    --rule: #c8b8a0;
+    --accent: #b8432f;
+    --accent-light: #e8d4cf;
+    --muted: #8a7e6e;
+    --paywall-warn: #c47a1a;
+    --paywall-ok: #4a8c5c;
+    --paywall-blocked: #b8432f;
+    --shadow: rgba(26, 26, 26, 0.06);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* === MASTHEAD === */
+  .masthead {
+    border-bottom: 3px double var(--ink);
+    padding: 1.5rem 3rem 1rem;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  .masthead-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+
+  .masthead-title span {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  .masthead-date {
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.9rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* === EDITION BAR === */
+  .edition-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 3rem;
+    border-bottom: 1px solid var(--rule);
+    background: var(--cream);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+  }
+
+  .edition-bar .stats {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .edition-bar .stat-value {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  /* === NAV TABS === */
+  .nav-tabs {
+    display: flex;
+    gap: 0;
+    padding: 0 3rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .nav-tab {
+    padding: 0.75rem 1.5rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+
+  .nav-tab:hover { color: var(--ink); }
+  .nav-tab.active {
+    color: var(--ink);
+    border-bottom-color: var(--accent);
+  }
+
+  /* === TOOLBAR === */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 3rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .bulk-checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+
+  .toolbar-label {
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+
+  .toolbar-right {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .btn {
+    padding: 0.5rem 1.25rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn:hover {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .btn-primary:hover {
+    background: #922e1f;
+    border-color: #922e1f;
+  }
+
+  /* === CONTENT LAYOUT === */
+  .content {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    min-height: calc(100vh - 220px);
+  }
+
+  /* === CLUSTER LIST (Main Column) === */
+  .cluster-list {
+    padding: 0 3rem 3rem;
+  }
+
+  .section-header {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 1.25rem 0 0.75rem;
+    border-bottom: 1px solid var(--ink);
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .section-count {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* === CLUSTER CARD === */
+  .cluster-card {
+    border-bottom: 1px solid var(--rule);
+    padding: 1.25rem 0;
+    display: grid;
+    grid-template-columns: 36px 1fr auto;
+    gap: 1rem;
+    align-items: start;
+    transition: background 0.15s;
+  }
+
+  .cluster-card:hover {
+    background: var(--cream);
+    margin: 0 -1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .cluster-checkbox {
+    margin-top: 0.25rem;
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+
+  .cluster-body { min-width: 0; }
+
+  .cluster-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.35;
+    margin-bottom: 0.35rem;
+    color: var(--ink);
+  }
+
+  .cluster-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 0.6rem;
+  }
+
+  .cluster-meta .divider {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--rule);
+  }
+
+  .cluster-sources {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .source-item {
+    font-size: 0.82rem;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    line-height: 1.4;
+  }
+
+  .source-name {
+    font-weight: 600;
+    min-width: 100px;
+  }
+
+  .source-title {
+    color: var(--muted);
+    font-family: 'Source Serif 4', serif;
+    font-style: italic;
+  }
+
+  .paywall-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.5rem;
+    border-radius: 2px;
+  }
+
+  .paywall-badge.open {
+    color: var(--paywall-ok);
+    background: rgba(74, 140, 92, 0.1);
+  }
+
+  .paywall-badge.resolved {
+    color: var(--paywall-warn);
+    background: rgba(196, 122, 26, 0.1);
+  }
+
+  .paywall-badge.blocked {
+    color: var(--paywall-blocked);
+    background: rgba(184, 67, 47, 0.1);
+  }
+
+  .cluster-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+    padding-top: 0.15rem;
+  }
+
+  .item-count-badge {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .item-count-label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+
+  /* === SIDEBAR === */
+  .sidebar {
+    border-left: 1px solid var(--rule);
+    padding: 1.25rem 1.5rem;
+    background: var(--cream);
+  }
+
+  .sidebar-section {
+    margin-bottom: 2rem;
+  }
+
+  .sidebar-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 0.75rem;
+  }
+
+  .filter-group {
+    margin-bottom: 1rem;
+  }
+
+  .filter-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
+
+  .filter-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .filter-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    cursor: pointer;
+  }
+
+  .filter-option input {
+    accent-color: var(--accent);
+  }
+
+  .summary-stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.5rem 0;
+    border-bottom: 1px dotted var(--rule);
+    font-size: 0.82rem;
+  }
+
+  .summary-stat .value {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--accent);
+  }
+
+  .selection-summary {
+    background: var(--paper);
+    padding: 1rem;
+    border: 1px solid var(--rule);
+    margin-top: 1rem;
+  }
+
+  .selection-summary h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .selection-summary .count {
+    font-size: 2rem;
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    color: var(--accent);
+  }
+
+  .selection-summary .label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .btn-generate {
+    width: 100%;
+    margin-top: 0.75rem;
+    padding: 0.75rem;
+    font-size: 0.82rem;
+  }
+
+  /* === ANIMATION === */
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .cluster-card {
+    animation: fadeSlideIn 0.4s ease both;
+  }
+  .cluster-card:nth-child(1) { animation-delay: 0.05s; }
+  .cluster-card:nth-child(2) { animation-delay: 0.12s; }
+  .cluster-card:nth-child(3) { animation-delay: 0.19s; }
+  .cluster-card:nth-child(4) { animation-delay: 0.26s; }
+  .cluster-card:nth-child(5) { animation-delay: 0.33s; }
+
+  .sidebar { animation: fadeSlideIn 0.5s ease 0.1s both; }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <h1 class="masthead-title">Opgelucht <span>Pipeline</span></h1>
+  <div class="masthead-date">Maandag 10 februari 2026 — Editie #847</div>
+</header>
+
+<!-- EDITION BAR -->
+<div class="edition-bar">
+  <div class="stats">
+    <div>Vandaag opgehaald: <span class="stat-value">47 items</span></div>
+    <div>Clusters: <span class="stat-value">18</span></div>
+    <div>Achter paywall: <span class="stat-value">12</span></div>
+    <div>Opgelost via archief: <span class="stat-value">8</span></div>
+  </div>
+  <div>Laatste fetch: 12:02</div>
+</div>
+
+<!-- NAV TABS -->
+<nav class="nav-tabs">
+  <button class="nav-tab active">Nieuwsoverzicht</button>
+  <button class="nav-tab">RSS Feeds</button>
+  <button class="nav-tab">Categorieën</button>
+  <button class="nav-tab">Prompts</button>
+</nav>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="toolbar-left">
+    <input type="checkbox" class="bulk-checkbox" title="Alles selecteren">
+    <span class="toolbar-label">Selecteer alles</span>
+  </div>
+  <div class="toolbar-right">
+    <button class="btn">Samenvoegen</button>
+    <button class="btn">Splitsen</button>
+    <button class="btn btn-primary">Genereer artikelen →</button>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- CLUSTER LIST -->
+  <main class="cluster-list">
+    <div class="section-header">
+      <span>Nieuwsclusters van vandaag</span>
+      <span class="section-count">18 clusters · 47 bronnen</span>
+    </div>
+
+    <!-- Cluster 1 -->
+    <article class="cluster-card">
+      <input type="checkbox" class="cluster-checkbox" checked>
+      <div class="cluster-body">
+        <h2 class="cluster-label">Kabinet kondigt nieuw rookverbod aan voor terrassen horeca</h2>
+        <div class="cluster-meta">
+          <span>10 feb 2026</span>
+          <span class="divider"></span>
+          <span>4 bronnen</span>
+          <span class="divider"></span>
+          <span class="paywall-badge open">● Toegankelijk</span>
+        </div>
+        <div class="cluster-sources">
+          <div class="source-item">
+            <span class="source-name">NOS</span>
+            <span class="source-title">Rookverbod op terrassen: dit zijn de plannen</span>
+          </div>
+          <div class="source-item">
+            <span class="source-name">RTL Nieuws</span>
+            <span class="source-title">Terrasrookverbod gaat in per 2027</span>
+          </div>
+          <div class="source-item">
+            <span class="source-name">Volkskrant</span>
+            <span class="source-title">Ook terrassen worden rookvrij</span>
+            <span class="paywall-badge resolved">⟳ Archief</span>
+          </div>
+          <div class="source-item">
+            <span class="source-name">AD</span>
+            <span class="source-title">Horecabranche reageert op terrasverbod</span>
+          </div>
+        </div>
+      </div>
+      <div class="cluster-actions">
+        <div class="item-count-badge">4</div>
+        <div class="item-count-label">bronnen</div>
+      </div>
+    </article>
+
+    <!-- Cluster 2 -->
+    <article class="cluster-card">
+      <input type="checkbox" class="cluster-checkbox" checked>
+      <div class="cluster-body">
+        <h2 class="cluster-label">Onderzoek: vapen onder jongeren stijgt met 40 procent</h2>
+        <div class="cluster-meta">
+          <span>10 feb 2026</span>
+          <span class="divider"></span>
+          <span>3 bronnen</span>
+          <span class="divider"></span>
+          <span class="paywall-badge open">● Toegankelijk</span>
+        </div>
+        <div class="cluster-sources">
+          <div class="source-item">
+            <span class="source-name">Trimbos</span>
+            <span class="source-title">Jaarlijks onderzoek: vapegebruik jongeren explosief gestegen</span>
+          </div>
+          <div class="source-item">
+            <span class="source-name">NRC</span>
+            <span class="source-title">De opmars van de vape: cijfers liegen niet</span>
+            <span class="paywall-badge resolved">⟳ Archief</span>
+          </div>
+          <div class="source-item">
+            <span class="source-name">NU.nl</span>
+            <span class="source-title">40 procent meer jongeren vapen, blijkt uit nieuw onderzoek</span>
+          </div>
+        </div>
+      </div>
+      <div class="cluster-actions">
+        <div class="item-count-badge">3</div>
+        <div class="item-count-label">bronnen</div>
+      </div>
+    </article>
+
+    <!-- Cluster 3 -->
+    <article class="cluster-card">
+      <input type="checkbox" class="cluster-checkbox">
+      <div class="cluster-body">
+        <h2 class="cluster-label">EU overweegt verbod op smaakjes in e-sigaretten</h2>
+        <div class="cluster-meta">
+          <span>9 feb 2026</span>
+          <span class="divider"></span>
+          <span>2 bronnen</span>
+          <span class="divider"></span>
+          <span class="paywall-badge blocked">✕ Paywall</span>
+        </div>
+        <div class="cluster-sources">
+          <div class="source-item">
+            <span class="source-name">FD</span>
+            <span class="source-title">Brussel zet in op strengere vape-regels</span>
+            <span class="paywall-badge blocked">✕ Paywall</span>
+          </div>
+          <div class="source-item">
+            <span class="source-name">Reuters</span>
+            <span class="source-title">EU considers ban on flavoured e-cigarettes</span>
+          </div>
+        </div>
+      </div>
+      <div class="cluster-actions">
+        <div class="item-count-badge">2</div>
+        <div class="item-count-label">bronnen</div>
+      </div>
+    </article>
+
+    <!-- Cluster 4 -->
+    <article class="cluster-card">
+      <input type="checkbox" class="cluster-checkbox">
+      <div class="cluster-body">
+        <h2 class="cluster-label">Tabaksindustrie verliest rechtszaak over plain packaging</h2>
+        <div class="cluster-meta">
+          <span>9 feb 2026</span>
+          <span class="divider"></span>
+          <span>5 bronnen</span>
+          <span class="divider"></span>
+          <span class="paywall-badge open">● Toegankelijk</span>
+        </div>
+        <div class="cluster-sources">
+          <div class="source-item">
+            <span class="source-name">NOS</span>
+            <span class="source-title">Rechtbank wijst claim tabaksfabrikanten af</span>
+          </div>
+          <div class="source-item">
+            <span class="source-name">Volkskrant</span>
+            <span class="source-title">Merkloos sigarettenpakje definitief</span>
+            <span class="paywall-badge resolved">⟳ Archief</span>
+          </div>
+          <div class="source-item">
+            <span class="source-name">Trouw</span>
+            <span class="source-title">Overwinning voor rookvrij beleid</span>
+            <span class="paywall-badge resolved">⟳ Archief</span>
+          </div>
+        </div>
+      </div>
+      <div class="cluster-actions">
+        <div class="item-count-badge">5</div>
+        <div class="item-count-label">bronnen</div>
+      </div>
+    </article>
+
+    <!-- Cluster 5 -->
+    <article class="cluster-card">
+      <input type="checkbox" class="cluster-checkbox">
+      <div class="cluster-body">
+        <h2 class="cluster-label">GGD start campagne tegen waterpijpgebruik</h2>
+        <div class="cluster-meta">
+          <span>8 feb 2026</span>
+          <span class="divider"></span>
+          <span>2 bronnen</span>
+          <span class="divider"></span>
+          <span class="paywall-badge open">● Toegankelijk</span>
+        </div>
+        <div class="cluster-sources">
+          <div class="source-item">
+            <span class="source-name">GGD GHOR</span>
+            <span class="source-title">Nieuwe campagne: shisha is niet onschuldig</span>
+          </div>
+          <div class="source-item">
+            <span class="source-name">Tubantia</span>
+            <span class="source-title">GGD waarschuwt voor waterpijp in Twente</span>
+          </div>
+        </div>
+      </div>
+      <div class="cluster-actions">
+        <div class="item-count-badge">2</div>
+        <div class="item-count-label">bronnen</div>
+      </div>
+    </article>
+
+  </main>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <h3 class="sidebar-title">Selectie</h3>
+      <div class="selection-summary">
+        <h4>Geselecteerd voor generatie</h4>
+        <div class="count">2</div>
+        <div class="label">clusters · 7 bronnen</div>
+        <button class="btn btn-primary btn-generate">Genereer artikelen →</button>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <h3 class="sidebar-title">Overzicht</h3>
+      <div class="summary-stat">
+        <span>Totaal items</span>
+        <span class="value">47</span>
+      </div>
+      <div class="summary-stat">
+        <span>Clusters</span>
+        <span class="value">18</span>
+      </div>
+      <div class="summary-stat">
+        <span>Zonder paywall</span>
+        <span class="value">35</span>
+      </div>
+      <div class="summary-stat">
+        <span>Via archief opgelost</span>
+        <span class="value">8</span>
+      </div>
+      <div class="summary-stat">
+        <span>Paywall onopgelost</span>
+        <span class="value">4</span>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <h3 class="sidebar-title">Filters</h3>
+      <div class="filter-group">
+        <div class="filter-label">Paywall status</div>
+        <div class="filter-options">
+          <label class="filter-option"><input type="checkbox" checked> Toegankelijk (35)</label>
+          <label class="filter-option"><input type="checkbox" checked> Archief opgelost (8)</label>
+          <label class="filter-option"><input type="checkbox" checked> Paywall (4)</label>
+        </div>
+      </div>
+      <div class="filter-group">
+        <div class="filter-label">Datum</div>
+        <div class="filter-options">
+          <label class="filter-option"><input type="radio" name="date" checked> Vandaag</label>
+          <label class="filter-option"><input type="radio" name="date"> Afgelopen 3 dagen</label>
+          <label class="filter-option"><input type="radio" name="date"> Deze week</label>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+</div>
+
+</body>
+</html>

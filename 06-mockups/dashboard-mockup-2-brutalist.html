@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Opgelucht — Editorial Dashboard — Mockup 2: Brutalist Industrial</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f5f0;
+    --yellow: #e8ff00;
+    --red: #ff2d2d;
+    --gray: #888;
+    --dark-gray: #2a2a2a;
+    --border: #444;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'IBM Plex Mono', monospace;
+    background: var(--black);
+    color: var(--white);
+    min-height: 100vh;
+    cursor: crosshair;
+  }
+
+  /* === HEADER === */
+  .header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    padding: 1.5rem 2rem 1rem;
+    border-bottom: 4px solid var(--yellow);
+  }
+
+  .logo {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 3rem;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+  }
+
+  .logo .highlight {
+    color: var(--yellow);
+    display: inline-block;
+    transform: skewX(-6deg);
+  }
+
+  .header-meta {
+    text-align: right;
+    font-size: 0.7rem;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    line-height: 1.8;
+  }
+
+  .header-meta .live {
+    color: var(--red);
+    animation: blink 1.2s infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* === STATS STRIP === */
+  .stats-strip {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    border-bottom: 2px solid var(--border);
+  }
+
+  .stat-cell {
+    padding: 1rem 1.5rem;
+    border-right: 1px solid var(--border);
+    text-transform: uppercase;
+  }
+
+  .stat-cell:last-child { border-right: none; }
+
+  .stat-number {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 2rem;
+    color: var(--yellow);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: var(--gray);
+    margin-top: 0.25rem;
+  }
+
+  /* === NAV === */
+  .nav {
+    display: flex;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .nav-item {
+    padding: 0.75rem 2rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gray);
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-right: 1px solid var(--border);
+    transition: all 0.15s;
+    position: relative;
+  }
+
+  .nav-item:hover {
+    color: var(--white);
+    background: var(--dark-gray);
+  }
+
+  .nav-item.active {
+    color: var(--black);
+    background: var(--yellow);
+  }
+
+  /* === ACTIONS BAR === */
+  .actions-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 2rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--dark-gray);
+  }
+
+  .actions-left {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .checkbox-brutal {
+    width: 20px;
+    height: 20px;
+    appearance: none;
+    border: 2px solid var(--yellow);
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .checkbox-brutal:checked {
+    background: var(--yellow);
+  }
+
+  .checkbox-brutal:checked::after {
+    content: '×';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--black);
+    font-weight: 700;
+    font-size: 1rem;
+  }
+
+  .actions-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gray);
+  }
+
+  .actions-right {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .btn-brutal {
+    padding: 0.5rem 1.25rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border: 2px solid var(--border);
+    background: transparent;
+    color: var(--white);
+    cursor: pointer;
+    transition: all 0.1s;
+  }
+
+  .btn-brutal:hover {
+    border-color: var(--white);
+    transform: translate(-1px, -1px);
+    box-shadow: 2px 2px 0 var(--white);
+  }
+
+  .btn-brutal.primary {
+    border-color: var(--yellow);
+    color: var(--yellow);
+  }
+
+  .btn-brutal.primary:hover {
+    background: var(--yellow);
+    color: var(--black);
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 var(--yellow);
+  }
+
+  /* === MAIN GRID === */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+  }
+
+  /* === CLUSTER LIST === */
+  .cluster-list {
+    padding: 0;
+  }
+
+  .cluster-section-title {
+    padding: 0.75rem 2rem;
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--yellow);
+    border-bottom: 1px solid var(--border);
+    background: rgba(232, 255, 0, 0.03);
+  }
+
+  /* === CLUSTER ROW === */
+  .cluster-row {
+    display: grid;
+    grid-template-columns: 40px 60px 1fr 120px;
+    border-bottom: 1px solid var(--border);
+    transition: all 0.1s;
+    animation: slideIn 0.3s ease both;
+  }
+
+  .cluster-row:nth-child(1) { animation-delay: 0.05s; }
+  .cluster-row:nth-child(2) { animation-delay: 0.1s; }
+  .cluster-row:nth-child(3) { animation-delay: 0.15s; }
+  .cluster-row:nth-child(4) { animation-delay: 0.2s; }
+  .cluster-row:nth-child(5) { animation-delay: 0.25s; }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .cluster-row:hover {
+    background: var(--dark-gray);
+  }
+
+  .cluster-row.selected {
+    background: rgba(232, 255, 0, 0.05);
+    border-left: 3px solid var(--yellow);
+  }
+
+  .cluster-check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 0;
+    border-right: 1px solid var(--border);
+  }
+
+  .cluster-count {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    border-right: 1px solid var(--border);
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 1.4rem;
+    color: var(--yellow);
+  }
+
+  .cluster-content {
+    padding: 1rem 1.5rem;
+    border-right: 1px solid var(--border);
+  }
+
+  .cluster-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 0.35rem;
+  }
+
+  .cluster-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.68rem;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.5rem;
+  }
+
+  .sources-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .source-tag {
+    padding: 0.15rem 0.5rem;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border: 1px solid var(--border);
+    color: var(--gray);
+  }
+
+  .source-tag.paywalled {
+    border-color: var(--red);
+    color: var(--red);
+  }
+
+  .source-tag.archived {
+    border-color: var(--yellow);
+    color: var(--yellow);
+  }
+
+  .cluster-status {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    gap: 0.35rem;
+  }
+
+  .status-indicator {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.2rem 0.6rem;
+    font-weight: 600;
+  }
+
+  .status-indicator.open {
+    color: #00ff88;
+    border: 1px solid #00ff88;
+  }
+
+  .status-indicator.partial {
+    color: var(--yellow);
+    border: 1px solid var(--yellow);
+  }
+
+  .status-indicator.blocked {
+    color: var(--red);
+    border: 1px solid var(--red);
+  }
+
+  /* === SIDEBAR === */
+  .sidebar {
+    border-left: 2px solid var(--border);
+    background: var(--dark-gray);
+  }
+
+  .sidebar-block {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar-heading {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--yellow);
+    margin-bottom: 0.75rem;
+  }
+
+  .selection-count {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 4rem;
+    color: var(--yellow);
+    line-height: 1;
+  }
+
+  .selection-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gray);
+    margin-top: 0.25rem;
+  }
+
+  .btn-generate-full {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.75rem;
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: 3px solid var(--yellow);
+    background: transparent;
+    color: var(--yellow);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn-generate-full:hover {
+    background: var(--yellow);
+    color: var(--black);
+    transform: translate(-3px, -3px);
+    box-shadow: 6px 6px 0 rgba(232, 255, 0, 0.3);
+  }
+
+  .filter-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.72rem;
+    color: var(--gray);
+    margin-bottom: 0.4rem;
+  }
+
+  .filter-row input {
+    accent-color: var(--yellow);
+  }
+
+  .mini-stat {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    font-size: 0.72rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .mini-stat .val {
+    font-weight: 700;
+    color: var(--yellow);
+  }
+
+  /* Corner index */
+  .corner-index {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    font-size: 0.6rem;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    writing-mode: vertical-rl;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo">OPGE<span class="highlight">LUCHT</span></div>
+  <div class="header-meta">
+    CONTENT PIPELINE V1.0<br>
+    10.02.2026 // 12:02<br>
+    <span class="live">■ LIVE</span>
+  </div>
+</header>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stat-cell">
+    <div class="stat-number">47</div>
+    <div class="stat-label">Items opgehaald</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-number">18</div>
+    <div class="stat-label">Clusters</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-number">12</div>
+    <div class="stat-label">Paywalled</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-number">08</div>
+    <div class="stat-label">Archief opgelost</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-number">04</div>
+    <div class="stat-label">Onopgelost</div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <button class="nav-item active">[01] Dashboard</button>
+  <button class="nav-item">[02] RSS Feeds</button>
+  <button class="nav-item">[03] Categorieën</button>
+  <button class="nav-item">[04] Prompts</button>
+</nav>
+
+<!-- ACTIONS -->
+<div class="actions-bar">
+  <div class="actions-left">
+    <input type="checkbox" class="checkbox-brutal">
+    <span class="actions-label">Selecteer alles</span>
+  </div>
+  <div class="actions-right">
+    <button class="btn-brutal">Samenvoegen</button>
+    <button class="btn-brutal">Splitsen</button>
+    <button class="btn-brutal primary">→ Genereer</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main-grid">
+  <div class="cluster-list">
+    <div class="cluster-section-title">// Nieuwsclusters — 10 feb 2026</div>
+
+    <!-- Row 1 -->
+    <div class="cluster-row selected">
+      <div class="cluster-check"><input type="checkbox" class="checkbox-brutal" checked></div>
+      <div class="cluster-count">4</div>
+      <div class="cluster-content">
+        <div class="cluster-title">Kabinet kondigt nieuw rookverbod aan voor terrassen horeca</div>
+        <div class="cluster-meta-row">
+          <span>10.02.2026</span>
+          <span>4 bronnen</span>
+        </div>
+        <div class="sources-list">
+          <span class="source-tag">NOS</span>
+          <span class="source-tag">RTL</span>
+          <span class="source-tag archived">Volkskrant ⟳</span>
+          <span class="source-tag">AD</span>
+        </div>
+      </div>
+      <div class="cluster-status">
+        <span class="status-indicator partial">Deels</span>
+      </div>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="cluster-row selected">
+      <div class="cluster-check"><input type="checkbox" class="checkbox-brutal" checked></div>
+      <div class="cluster-count">3</div>
+      <div class="cluster-content">
+        <div class="cluster-title">Onderzoek: vapen onder jongeren stijgt met 40 procent</div>
+        <div class="cluster-meta-row">
+          <span>10.02.2026</span>
+          <span>3 bronnen</span>
+        </div>
+        <div class="sources-list">
+          <span class="source-tag">Trimbos</span>
+          <span class="source-tag archived">NRC ⟳</span>
+          <span class="source-tag">NU.nl</span>
+        </div>
+      </div>
+      <div class="cluster-status">
+        <span class="status-indicator open">Open</span>
+      </div>
+    </div>
+
+    <!-- Row 3 -->
+    <div class="cluster-row">
+      <div class="cluster-check"><input type="checkbox" class="checkbox-brutal"></div>
+      <div class="cluster-count">2</div>
+      <div class="cluster-content">
+        <div class="cluster-title">EU overweegt verbod op smaakjes in e-sigaretten</div>
+        <div class="cluster-meta-row">
+          <span>09.02.2026</span>
+          <span>2 bronnen</span>
+        </div>
+        <div class="sources-list">
+          <span class="source-tag paywalled">FD ✕</span>
+          <span class="source-tag">Reuters</span>
+        </div>
+      </div>
+      <div class="cluster-status">
+        <span class="status-indicator blocked">Paywall</span>
+      </div>
+    </div>
+
+    <!-- Row 4 -->
+    <div class="cluster-row">
+      <div class="cluster-check"><input type="checkbox" class="checkbox-brutal"></div>
+      <div class="cluster-count">5</div>
+      <div class="cluster-content">
+        <div class="cluster-title">Tabaksindustrie verliest rechtszaak over plain packaging</div>
+        <div class="cluster-meta-row">
+          <span>09.02.2026</span>
+          <span>5 bronnen</span>
+        </div>
+        <div class="sources-list">
+          <span class="source-tag">NOS</span>
+          <span class="source-tag archived">Volkskrant ⟳</span>
+          <span class="source-tag archived">Trouw ⟳</span>
+          <span class="source-tag">RTL</span>
+          <span class="source-tag">ANP</span>
+        </div>
+      </div>
+      <div class="cluster-status">
+        <span class="status-indicator partial">Deels</span>
+      </div>
+    </div>
+
+    <!-- Row 5 -->
+    <div class="cluster-row">
+      <div class="cluster-check"><input type="checkbox" class="checkbox-brutal"></div>
+      <div class="cluster-count">2</div>
+      <div class="cluster-content">
+        <div class="cluster-title">GGD start campagne tegen waterpijpgebruik</div>
+        <div class="cluster-meta-row">
+          <span>08.02.2026</span>
+          <span>2 bronnen</span>
+        </div>
+        <div class="sources-list">
+          <span class="source-tag">GGD GHOR</span>
+          <span class="source-tag">Tubantia</span>
+        </div>
+      </div>
+      <div class="cluster-status">
+        <span class="status-indicator open">Open</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-block">
+      <div class="sidebar-heading">// Selectie</div>
+      <div class="selection-count">2</div>
+      <div class="selection-label">Clusters geselecteerd</div>
+      <div style="margin-top:0.25rem">
+        <div class="selection-label">7 bronnen totaal</div>
+      </div>
+      <button class="btn-generate-full">→ Genereer artikelen</button>
+    </div>
+
+    <div class="sidebar-block">
+      <div class="sidebar-heading">// Statistieken</div>
+      <div class="mini-stat"><span>Totaal items</span><span class="val">47</span></div>
+      <div class="mini-stat"><span>Clusters</span><span class="val">18</span></div>
+      <div class="mini-stat"><span>Toegankelijk</span><span class="val">35</span></div>
+      <div class="mini-stat"><span>Via archief</span><span class="val">08</span></div>
+      <div class="mini-stat"><span>Onopgelost</span><span class="val">04</span></div>
+    </div>
+
+    <div class="sidebar-block">
+      <div class="sidebar-heading">// Filters</div>
+      <div class="filter-row"><input type="checkbox" checked> Toegankelijk (35)</div>
+      <div class="filter-row"><input type="checkbox" checked> Archief (08)</div>
+      <div class="filter-row"><input type="checkbox" checked> Paywall (04)</div>
+      <div style="margin-top:1rem">
+        <div class="filter-row"><input type="radio" name="d" checked> Vandaag</div>
+        <div class="filter-row"><input type="radio" name="d"> 3 dagen</div>
+        <div class="filter-row"><input type="radio" name="d"> Deze week</div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<div class="corner-index">Mockup 02 — Brutalist</div>
+
+</body>
+</html>

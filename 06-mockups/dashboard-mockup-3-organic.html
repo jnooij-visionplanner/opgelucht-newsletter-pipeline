@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Opgelucht — Editorial Dashboard — Mockup 3: Soft Organic</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700;9..144,900&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fef9f3;
+    --surface: #ffffff;
+    --surface-warm: #fdf5ec;
+    --text: #3d3228;
+    --text-soft: #8a7d72;
+    --sage: #7ba387;
+    --sage-light: #dceade;
+    --sage-dark: #5a8466;
+    --terracotta: #c4725a;
+    --terracotta-light: #f5ddd5;
+    --amber: #d4a44c;
+    --amber-light: #f7ecd3;
+    --lavender: #9b8ec4;
+    --lavender-light: #ece8f5;
+    --border: rgba(61, 50, 40, 0.08);
+    --shadow-sm: 0 1px 3px rgba(61, 50, 40, 0.04);
+    --shadow: 0 4px 20px rgba(61, 50, 40, 0.06);
+    --shadow-lg: 0 8px 40px rgba(61, 50, 40, 0.08);
+    --radius: 16px;
+    --radius-sm: 10px;
+    --radius-xs: 6px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* Subtle grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.015;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    z-index: 9999;
+  }
+
+  /* === TOP BAR === */
+  .top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2.5rem;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .brand-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--sage), var(--sage-dark));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: 'Fraunces', serif;
+    font-size: 1.2rem;
+    font-weight: 900;
+  }
+
+  .brand-name {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .brand-name span {
+    color: var(--sage);
+  }
+
+  .top-bar-meta {
+    font-size: 0.8rem;
+    color: var(--text-soft);
+  }
+
+  /* === NAV PILLS === */
+  .nav-pills {
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem 2.5rem;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .pill {
+    padding: 0.5rem 1.25rem;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 100px;
+    background: transparent;
+    color: var(--text-soft);
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+
+  .pill:hover {
+    background: var(--sage-light);
+    color: var(--sage-dark);
+  }
+
+  .pill.active {
+    background: var(--sage);
+    color: white;
+    box-shadow: 0 2px 8px rgba(123, 163, 135, 0.3);
+  }
+
+  /* === STATS CARDS === */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    padding: 1.5rem 2.5rem;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border-radius: var(--radius-sm);
+    padding: 1.25rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    animation: floatUp 0.5s ease both;
+  }
+
+  .stat-card:nth-child(1) { animation-delay: 0.05s; }
+  .stat-card:nth-child(2) { animation-delay: 0.1s; }
+  .stat-card:nth-child(3) { animation-delay: 0.15s; }
+  .stat-card:nth-child(4) { animation-delay: 0.2s; }
+
+  @keyframes floatUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .stat-card-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .stat-card-icon.green { background: var(--sage-light); color: var(--sage-dark); }
+  .stat-card-icon.orange { background: var(--amber-light); color: var(--amber); }
+  .stat-card-icon.red { background: var(--terracotta-light); color: var(--terracotta); }
+  .stat-card-icon.purple { background: var(--lavender-light); color: var(--lavender); }
+
+  .stat-card-value {
+    font-family: 'Fraunces', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--text);
+  }
+
+  .stat-card-label {
+    font-size: 0.78rem;
+    color: var(--text-soft);
+    margin-top: 0.25rem;
+  }
+
+  /* === LAYOUT === */
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 1.5rem;
+    padding: 0 2.5rem 2.5rem;
+  }
+
+  /* === CLUSTER CARDS === */
+  .cluster-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .feed-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 0.5rem;
+  }
+
+  .feed-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .feed-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .btn-soft {
+    padding: 0.45rem 1rem;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    background: var(--surface);
+    color: var(--text-soft);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-soft:hover {
+    border-color: var(--sage);
+    color: var(--sage-dark);
+    background: var(--sage-light);
+  }
+
+  .btn-soft.primary {
+    background: var(--sage);
+    color: white;
+    border-color: var(--sage);
+  }
+
+  .btn-soft.primary:hover {
+    background: var(--sage-dark);
+    box-shadow: 0 4px 12px rgba(123, 163, 135, 0.3);
+    transform: translateY(-1px);
+  }
+
+  .cluster-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 28px 1fr auto;
+    gap: 1rem;
+    align-items: start;
+    transition: all 0.25s ease;
+    animation: floatUp 0.4s ease both;
+  }
+
+  .cluster-card:nth-child(2) { animation-delay: 0.06s; }
+  .cluster-card:nth-child(3) { animation-delay: 0.12s; }
+  .cluster-card:nth-child(4) { animation-delay: 0.18s; }
+  .cluster-card:nth-child(5) { animation-delay: 0.24s; }
+  .cluster-card:nth-child(6) { animation-delay: 0.30s; }
+
+  .cluster-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+  }
+
+  .cluster-card.selected {
+    border-color: var(--sage);
+    background: linear-gradient(135deg, rgba(123,163,135,0.03), rgba(123,163,135,0.08));
+  }
+
+  .card-checkbox {
+    width: 22px;
+    height: 22px;
+    accent-color: var(--sage);
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 2px;
+  }
+
+  .card-body { min-width: 0; }
+
+  .card-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.35;
+    margin-bottom: 0.4rem;
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.75rem;
+    color: var(--text-soft);
+    margin-bottom: 0.6rem;
+  }
+
+  .meta-dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--text-soft);
+    opacity: 0.4;
+  }
+
+  .card-sources {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .source-chip {
+    padding: 0.2rem 0.6rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    border-radius: 100px;
+    background: var(--surface-warm);
+    color: var(--text-soft);
+  }
+
+  .source-chip.archived {
+    background: var(--amber-light);
+    color: var(--amber);
+  }
+
+  .source-chip.paywalled {
+    background: var(--terracotta-light);
+    color: var(--terracotta);
+  }
+
+  .card-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+  }
+
+  .badge-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 1.1rem;
+    color: white;
+    background: var(--sage);
+  }
+
+  .badge-label {
+    font-size: 0.62rem;
+    color: var(--text-soft);
+  }
+
+  .paywall-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.15rem 0.55rem;
+    border-radius: 100px;
+  }
+
+  .paywall-pill.open { background: var(--sage-light); color: var(--sage-dark); }
+  .paywall-pill.resolved { background: var(--amber-light); color: var(--amber); }
+  .paywall-pill.blocked { background: var(--terracotta-light); color: var(--terracotta); }
+
+  /* === RIGHT PANEL === */
+  .right-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .panel-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+  }
+
+  .panel-title {
+    font-family: 'Fraunces', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .panel-title .icon {
+    font-size: 1.1rem;
+  }
+
+  .selection-big {
+    text-align: center;
+    padding: 1rem 0;
+  }
+
+  .selection-big .number {
+    font-family: 'Fraunces', serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--sage);
+    line-height: 1;
+  }
+
+  .selection-big .sub {
+    font-size: 0.8rem;
+    color: var(--text-soft);
+    margin-top: 0.25rem;
+  }
+
+  .btn-generate-wide {
+    width: 100%;
+    padding: 0.8rem;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: linear-gradient(135deg, var(--sage), var(--sage-dark));
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(123, 163, 135, 0.3);
+    transition: all 0.25s ease;
+  }
+
+  .btn-generate-wide:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(123, 163, 135, 0.4);
+  }
+
+  .filter-option-soft {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+  }
+
+  .filter-option-soft input { accent-color: var(--sage); }
+
+  .overview-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    font-size: 0.82rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .overview-row:last-child { border-bottom: none; }
+
+  .overview-row .val {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    color: var(--sage-dark);
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header class="top-bar">
+  <div class="brand">
+    <div class="brand-icon">O</div>
+    <div class="brand-name">Opge<span>lucht</span></div>
+  </div>
+  <div class="top-bar-meta">Maandag 10 februari 2026 · 12:02</div>
+</header>
+
+<!-- NAV -->
+<nav class="nav-pills">
+  <button class="pill active">Nieuwsoverzicht</button>
+  <button class="pill">RSS Feeds</button>
+  <button class="pill">Categorieën</button>
+  <button class="pill">Prompts</button>
+</nav>
+
+<!-- STATS -->
+<div class="stats-row">
+  <div class="stat-card">
+    <div class="stat-card-icon green">📥</div>
+    <div class="stat-card-value">47</div>
+    <div class="stat-card-label">Items opgehaald</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-card-icon purple">🗂️</div>
+    <div class="stat-card-value">18</div>
+    <div class="stat-card-label">Nieuwsclusters</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-card-icon orange">🔓</div>
+    <div class="stat-card-value">8</div>
+    <div class="stat-card-label">Via archief opgelost</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-card-icon red">🔒</div>
+    <div class="stat-card-value">4</div>
+    <div class="stat-card-label">Paywall onopgelost</div>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="layout">
+  <div class="cluster-feed">
+    <div class="feed-header">
+      <div class="feed-title">Nieuwsclusters</div>
+      <div class="feed-actions">
+        <button class="btn-soft">Samenvoegen</button>
+        <button class="btn-soft">Splitsen</button>
+        <button class="btn-soft primary">Genereer artikelen →</button>
+      </div>
+    </div>
+
+    <!-- Card 1 -->
+    <div class="cluster-card selected">
+      <input type="checkbox" class="card-checkbox" checked>
+      <div class="card-body">
+        <h2 class="card-title">Kabinet kondigt nieuw rookverbod aan voor terrassen horeca</h2>
+        <div class="card-meta">
+          <span>10 feb 2026</span>
+          <span class="meta-dot"></span>
+          <span>4 bronnen</span>
+          <span class="meta-dot"></span>
+          <span class="paywall-pill open">● Toegankelijk</span>
+        </div>
+        <div class="card-sources">
+          <span class="source-chip">NOS</span>
+          <span class="source-chip">RTL Nieuws</span>
+          <span class="source-chip archived">Volkskrant ↗</span>
+          <span class="source-chip">AD</span>
+        </div>
+      </div>
+      <div class="card-badge">
+        <div class="badge-circle">4</div>
+        <div class="badge-label">bronnen</div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="cluster-card selected">
+      <input type="checkbox" class="card-checkbox" checked>
+      <div class="card-body">
+        <h2 class="card-title">Onderzoek: vapen onder jongeren stijgt met 40 procent</h2>
+        <div class="card-meta">
+          <span>10 feb 2026</span>
+          <span class="meta-dot"></span>
+          <span>3 bronnen</span>
+          <span class="meta-dot"></span>
+          <span class="paywall-pill open">● Toegankelijk</span>
+        </div>
+        <div class="card-sources">
+          <span class="source-chip">Trimbos</span>
+          <span class="source-chip archived">NRC ↗</span>
+          <span class="source-chip">NU.nl</span>
+        </div>
+      </div>
+      <div class="card-badge">
+        <div class="badge-circle">3</div>
+        <div class="badge-label">bronnen</div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="cluster-card">
+      <input type="checkbox" class="card-checkbox">
+      <div class="card-body">
+        <h2 class="card-title">EU overweegt verbod op smaakjes in e-sigaretten</h2>
+        <div class="card-meta">
+          <span>9 feb 2026</span>
+          <span class="meta-dot"></span>
+          <span>2 bronnen</span>
+          <span class="meta-dot"></span>
+          <span class="paywall-pill blocked">✕ Paywall</span>
+        </div>
+        <div class="card-sources">
+          <span class="source-chip paywalled">FD 🔒</span>
+          <span class="source-chip">Reuters</span>
+        </div>
+      </div>
+      <div class="card-badge">
+        <div class="badge-circle">2</div>
+        <div class="badge-label">bronnen</div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="cluster-card">
+      <input type="checkbox" class="card-checkbox">
+      <div class="card-body">
+        <h2 class="card-title">Tabaksindustrie verliest rechtszaak over plain packaging</h2>
+        <div class="card-meta">
+          <span>9 feb 2026</span>
+          <span class="meta-dot"></span>
+          <span>5 bronnen</span>
+          <span class="meta-dot"></span>
+          <span class="paywall-pill resolved">⟳ Deels opgelost</span>
+        </div>
+        <div class="card-sources">
+          <span class="source-chip">NOS</span>
+          <span class="source-chip archived">Volkskrant ↗</span>
+          <span class="source-chip archived">Trouw ↗</span>
+          <span class="source-chip">RTL</span>
+          <span class="source-chip">ANP</span>
+        </div>
+      </div>
+      <div class="card-badge">
+        <div class="badge-circle">5</div>
+        <div class="badge-label">bronnen</div>
+      </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="cluster-card">
+      <input type="checkbox" class="card-checkbox">
+      <div class="card-body">
+        <h2 class="card-title">GGD start campagne tegen waterpijpgebruik</h2>
+        <div class="card-meta">
+          <span>8 feb 2026</span>
+          <span class="meta-dot"></span>
+          <span>2 bronnen</span>
+          <span class="meta-dot"></span>
+          <span class="paywall-pill open">● Toegankelijk</span>
+        </div>
+        <div class="card-sources">
+          <span class="source-chip">GGD GHOR</span>
+          <span class="source-chip">Tubantia</span>
+        </div>
+      </div>
+      <div class="card-badge">
+        <div class="badge-circle">2</div>
+        <div class="badge-label">bronnen</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <aside class="right-panel">
+    <div class="panel-card">
+      <div class="panel-title"><span class="icon">✨</span> Selectie</div>
+      <div class="selection-big">
+        <div class="number">2</div>
+        <div class="sub">clusters · 7 bronnen</div>
+      </div>
+      <button class="btn-generate-wide">Genereer artikelen →</button>
+    </div>
+
+    <div class="panel-card">
+      <div class="panel-title"><span class="icon">📊</span> Overzicht</div>
+      <div class="overview-row"><span>Totaal items</span><span class="val">47</span></div>
+      <div class="overview-row"><span>Clusters</span><span class="val">18</span></div>
+      <div class="overview-row"><span>Toegankelijk</span><span class="val">35</span></div>
+      <div class="overview-row"><span>Via archief</span><span class="val">8</span></div>
+      <div class="overview-row"><span>Onopgelost</span><span class="val">4</span></div>
+    </div>
+
+    <div class="panel-card">
+      <div class="panel-title"><span class="icon">🎛️</span> Filters</div>
+      <label class="filter-option-soft"><input type="checkbox" checked> Toegankelijk (35)</label>
+      <label class="filter-option-soft"><input type="checkbox" checked> Via archief (8)</label>
+      <label class="filter-option-soft"><input type="checkbox" checked> Paywall (4)</label>
+      <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border);">
+        <label class="filter-option-soft"><input type="radio" name="d" checked> Vandaag</label>
+        <label class="filter-option-soft"><input type="radio" name="d"> Afgelopen 3 dagen</label>
+        <label class="filter-option-soft"><input type="radio" name="d"> Deze week</label>
+      </div>
+    </div>
+  </aside>
+</div>
+
+</body>
+</html>

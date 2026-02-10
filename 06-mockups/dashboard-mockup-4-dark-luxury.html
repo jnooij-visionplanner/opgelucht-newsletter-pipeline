@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Opgelucht — Editorial Dashboard — Mockup 4: Dark Luxury</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f13;
+    --surface: #16181f;
+    --surface-hover: #1c1f28;
+    --surface-raised: #1f222d;
+    --text: #e8e4dd;
+    --text-dim: #6b6e78;
+    --gold: #c9a84c;
+    --gold-dim: rgba(201, 168, 76, 0.15);
+    --gold-glow: rgba(201, 168, 76, 0.08);
+    --emerald: #3daa6d;
+    --emerald-dim: rgba(61, 170, 109, 0.12);
+    --amber: #d4954a;
+    --amber-dim: rgba(212, 149, 74, 0.12);
+    --ruby: #c45a5a;
+    --ruby-dim: rgba(196, 90, 90, 0.12);
+    --border: rgba(255, 255, 255, 0.06);
+    --border-accent: rgba(201, 168, 76, 0.2);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 400;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* Subtle radial glow */
+  body::after {
+    content: '';
+    position: fixed;
+    top: -50%;
+    right: -30%;
+    width: 80vw;
+    height: 80vw;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201, 168, 76, 0.03) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* === HEADER === */
+  .header {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 2.5rem;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(201, 168, 76, 0.03) 0%, transparent 100%);
+  }
+
+  .logo-area {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .logo-mark {
+    width: 38px;
+    height: 38px;
+    border: 1.5px solid var(--gold);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--gold);
+    transform: rotate(-2deg);
+  }
+
+  .logo-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+
+  .logo-text span {
+    color: var(--gold);
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .header-time {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+  }
+
+  /* === NAV === */
+  .nav {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: 0;
+    padding: 0 2.5rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .nav-link {
+    padding: 0.85rem 1.75rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    border: none;
+    background: none;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s;
+  }
+
+  .nav-link:hover { color: var(--text); }
+
+  .nav-link.active {
+    color: var(--gold);
+  }
+
+  .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 1.75rem;
+    right: 1.75rem;
+    height: 1.5px;
+    background: var(--gold);
+  }
+
+  /* === STATS ROW === */
+  .stats-row {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .stat-block {
+    padding: 1.5rem 2rem;
+    background: var(--surface);
+    text-align: center;
+    transition: background 0.3s;
+    animation: fadeIn 0.6s ease both;
+  }
+
+  .stat-block:nth-child(1) { animation-delay: 0.1s; }
+  .stat-block:nth-child(2) { animation-delay: 0.15s; }
+  .stat-block:nth-child(3) { animation-delay: 0.2s; }
+  .stat-block:nth-child(4) { animation-delay: 0.25s; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .stat-block:hover { background: var(--surface-hover); }
+
+  .stat-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 0.35rem;
+  }
+
+  /* === MAIN LAYOUT === */
+  .main-layout {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+  }
+
+  /* === TOOLBAR === */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 2.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .luxury-checkbox {
+    width: 18px;
+    height: 18px;
+    appearance: none;
+    border: 1.5px solid var(--gold);
+    border-radius: 3px;
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+  }
+
+  .luxury-checkbox:checked {
+    background: var(--gold);
+    border-color: var(--gold);
+  }
+
+  .luxury-checkbox:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--bg);
+    font-size: 0.7rem;
+    font-weight: 600;
+  }
+
+  .toolbar-text {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+  }
+
+  .toolbar-right {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .btn-lux {
+    padding: 0.5rem 1.25rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+
+  .btn-lux:hover {
+    border-color: var(--text);
+    color: var(--text);
+  }
+
+  .btn-lux.gold {
+    border-color: var(--border-accent);
+    color: var(--gold);
+  }
+
+  .btn-lux.gold:hover {
+    background: var(--gold);
+    color: var(--bg);
+    border-color: var(--gold);
+    box-shadow: 0 0 20px rgba(201, 168, 76, 0.2);
+  }
+
+  /* === CLUSTER LIST === */
+  .cluster-feed {
+    padding: 0;
+    border-right: 1px solid var(--border);
+  }
+
+  .feed-section-label {
+    padding: 0.6rem 2.5rem;
+    font-size: 0.65rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--text-dim);
+    border-bottom: 1px solid var(--border);
+    background: var(--gold-glow);
+  }
+
+  .cluster-item {
+    display: grid;
+    grid-template-columns: 42px 1fr 80px;
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s ease;
+    animation: slideUp 0.5s ease both;
+  }
+
+  .cluster-item:nth-child(1) { animation-delay: 0.08s; }
+  .cluster-item:nth-child(2) { animation-delay: 0.14s; }
+  .cluster-item:nth-child(3) { animation-delay: 0.20s; }
+  .cluster-item:nth-child(4) { animation-delay: 0.26s; }
+  .cluster-item:nth-child(5) { animation-delay: 0.32s; }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .cluster-item:hover {
+    background: var(--surface-hover);
+  }
+
+  .cluster-item.selected {
+    background: var(--gold-glow);
+    border-left: 2px solid var(--gold);
+  }
+
+  .item-check {
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    padding: 1.25rem 0;
+  }
+
+  .item-body {
+    padding: 1.25rem 1.5rem 1.25rem 0.5rem;
+  }
+
+  .item-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 0.4rem;
+    color: var(--text);
+  }
+
+  .item-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    margin-bottom: 0.5rem;
+  }
+
+  .meta-separator {
+    color: var(--gold);
+    opacity: 0.4;
+  }
+
+  .item-sources {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .source-label {
+    padding: 0.15rem 0.55rem;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--text-dim);
+    transition: all 0.2s;
+  }
+
+  .source-label.archived {
+    border-color: var(--amber);
+    color: var(--amber);
+    background: var(--amber-dim);
+  }
+
+  .source-label.paywalled {
+    border-color: var(--ruby);
+    color: var(--ruby);
+    background: var(--ruby-dim);
+  }
+
+  .item-status {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem 1rem;
+    gap: 0.3rem;
+  }
+
+  .source-count {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .source-count-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+  }
+
+  .access-badge {
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+    margin-top: 0.25rem;
+  }
+
+  .access-badge.open { color: var(--emerald); background: var(--emerald-dim); }
+  .access-badge.partial { color: var(--amber); background: var(--amber-dim); }
+  .access-badge.blocked { color: var(--ruby); background: var(--ruby-dim); }
+
+  /* === SIDEBAR === */
+  .sidebar {
+    background: var(--surface);
+    padding: 0;
+  }
+
+  .sidebar-section {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar-label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .selection-display {
+    text-align: center;
+    padding: 0.5rem 0 1rem;
+  }
+
+  .selection-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+    text-shadow: 0 0 30px rgba(201, 168, 76, 0.2);
+  }
+
+  .selection-sub {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-top: 0.25rem;
+  }
+
+  .btn-generate-lux {
+    width: 100%;
+    padding: 0.85rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1.5px solid var(--gold);
+    border-radius: 4px;
+    background: linear-gradient(135deg, rgba(201, 168, 76, 0.1), transparent);
+    color: var(--gold);
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .btn-generate-lux:hover {
+    background: var(--gold);
+    color: var(--bg);
+    box-shadow: 0 0 30px rgba(201, 168, 76, 0.25);
+  }
+
+  .stat-row-compact {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.45rem 0;
+    font-size: 0.78rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .stat-row-compact:last-child { border-bottom: none; }
+
+  .stat-row-compact .val {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--gold);
+  }
+
+  .filter-row-lux {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    margin-bottom: 0.45rem;
+    cursor: pointer;
+  }
+
+  .filter-row-lux input {
+    accent-color: var(--gold);
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo-area">
+    <div class="logo-mark">O</div>
+    <div class="logo-text"><span>Opgelucht</span> Pipeline</div>
+  </div>
+  <div class="header-right">
+    <div class="header-time">10 februari 2026 · 12:02</div>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav class="nav">
+  <button class="nav-link active">Nieuwsoverzicht</button>
+  <button class="nav-link">RSS Feeds</button>
+  <button class="nav-link">Categorieën</button>
+  <button class="nav-link">Prompts</button>
+</nav>
+
+<!-- STATS -->
+<div class="stats-row">
+  <div class="stat-block">
+    <div class="stat-value">47</div>
+    <div class="stat-label">Items opgehaald</div>
+  </div>
+  <div class="stat-block">
+    <div class="stat-value">18</div>
+    <div class="stat-label">Nieuwsclusters</div>
+  </div>
+  <div class="stat-block">
+    <div class="stat-value">8</div>
+    <div class="stat-label">Archief opgelost</div>
+  </div>
+  <div class="stat-block">
+    <div class="stat-value">4</div>
+    <div class="stat-label">Paywall onopgelost</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main-layout">
+  <div class="cluster-feed">
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <input type="checkbox" class="luxury-checkbox">
+        <span class="toolbar-text">Selecteer alles</span>
+      </div>
+      <div class="toolbar-right">
+        <button class="btn-lux">Samenvoegen</button>
+        <button class="btn-lux">Splitsen</button>
+        <button class="btn-lux gold">Genereer →</button>
+      </div>
+    </div>
+
+    <div class="feed-section-label">Nieuwsclusters · 10 februari 2026</div>
+
+    <!-- Item 1 -->
+    <div class="cluster-item selected">
+      <div class="item-check"><input type="checkbox" class="luxury-checkbox" checked></div>
+      <div class="item-body">
+        <h2 class="item-title">Kabinet kondigt nieuw rookverbod aan voor terrassen horeca</h2>
+        <div class="item-meta">
+          <span>10 feb 2026</span>
+          <span class="meta-separator">·</span>
+          <span>4 bronnen</span>
+        </div>
+        <div class="item-sources">
+          <span class="source-label">NOS</span>
+          <span class="source-label">RTL Nieuws</span>
+          <span class="source-label archived">Volkskrant ↗</span>
+          <span class="source-label">AD</span>
+        </div>
+      </div>
+      <div class="item-status">
+        <div class="source-count">4</div>
+        <div class="source-count-label">bronnen</div>
+        <div class="access-badge partial">Deels</div>
+      </div>
+    </div>
+
+    <!-- Item 2 -->
+    <div class="cluster-item selected">
+      <div class="item-check"><input type="checkbox" class="luxury-checkbox" checked></div>
+      <div class="item-body">
+        <h2 class="item-title">Onderzoek: vapen onder jongeren stijgt met 40 procent</h2>
+        <div class="item-meta">
+          <span>10 feb 2026</span>
+          <span class="meta-separator">·</span>
+          <span>3 bronnen</span>
+        </div>
+        <div class="item-sources">
+          <span class="source-label">Trimbos</span>
+          <span class="source-label archived">NRC ↗</span>
+          <span class="source-label">NU.nl</span>
+        </div>
+      </div>
+      <div class="item-status">
+        <div class="source-count">3</div>
+        <div class="source-count-label">bronnen</div>
+        <div class="access-badge open">Open</div>
+      </div>
+    </div>
+
+    <!-- Item 3 -->
+    <div class="cluster-item">
+      <div class="item-check"><input type="checkbox" class="luxury-checkbox"></div>
+      <div class="item-body">
+        <h2 class="item-title">EU overweegt verbod op smaakjes in e-sigaretten</h2>
+        <div class="item-meta">
+          <span>9 feb 2026</span>
+          <span class="meta-separator">·</span>
+          <span>2 bronnen</span>
+        </div>
+        <div class="item-sources">
+          <span class="source-label paywalled">FD ✕</span>
+          <span class="source-label">Reuters</span>
+        </div>
+      </div>
+      <div class="item-status">
+        <div class="source-count">2</div>
+        <div class="source-count-label">bronnen</div>
+        <div class="access-badge blocked">Paywall</div>
+      </div>
+    </div>
+
+    <!-- Item 4 -->
+    <div class="cluster-item">
+      <div class="item-check"><input type="checkbox" class="luxury-checkbox"></div>
+      <div class="item-body">
+        <h2 class="item-title">Tabaksindustrie verliest rechtszaak over plain packaging</h2>
+        <div class="item-meta">
+          <span>9 feb 2026</span>
+          <span class="meta-separator">·</span>
+          <span>5 bronnen</span>
+        </div>
+        <div class="item-sources">
+          <span class="source-label">NOS</span>
+          <span class="source-label archived">Volkskrant ↗</span>
+          <span class="source-label archived">Trouw ↗</span>
+          <span class="source-label">RTL</span>
+          <span class="source-label">ANP</span>
+        </div>
+      </div>
+      <div class="item-status">
+        <div class="source-count">5</div>
+        <div class="source-count-label">bronnen</div>
+        <div class="access-badge partial">Deels</div>
+      </div>
+    </div>
+
+    <!-- Item 5 -->
+    <div class="cluster-item">
+      <div class="item-check"><input type="checkbox" class="luxury-checkbox"></div>
+      <div class="item-body">
+        <h2 class="item-title">GGD start campagne tegen waterpijpgebruik</h2>
+        <div class="item-meta">
+          <span>8 feb 2026</span>
+          <span class="meta-separator">·</span>
+          <span>2 bronnen</span>
+        </div>
+        <div class="item-sources">
+          <span class="source-label">GGD GHOR</span>
+          <span class="source-label">Tubantia</span>
+        </div>
+      </div>
+      <div class="item-status">
+        <div class="source-count">2</div>
+        <div class="source-count-label">bronnen</div>
+        <div class="access-badge open">Open</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Selectie</div>
+      <div class="selection-display">
+        <div class="selection-num">2</div>
+        <div class="selection-sub">clusters geselecteerd · 7 bronnen</div>
+      </div>
+      <button class="btn-generate-lux">Genereer artikelen →</button>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Statistieken</div>
+      <div class="stat-row-compact"><span>Totaal items</span><span class="val">47</span></div>
+      <div class="stat-row-compact"><span>Clusters</span><span class="val">18</span></div>
+      <div class="stat-row-compact"><span>Toegankelijk</span><span class="val">35</span></div>
+      <div class="stat-row-compact"><span>Via archief</span><span class="val">8</span></div>
+      <div class="stat-row-compact"><span>Onopgelost</span><span class="val">4</span></div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Filters</div>
+      <label class="filter-row-lux"><input type="checkbox" checked> Toegankelijk (35)</label>
+      <label class="filter-row-lux"><input type="checkbox" checked> Via archief (8)</label>
+      <label class="filter-row-lux"><input type="checkbox" checked> Paywall (4)</label>
+      <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border)">
+        <label class="filter-row-lux"><input type="radio" name="d" checked> Vandaag</label>
+        <label class="filter-row-lux"><input type="radio" name="d"> Afgelopen 3 dagen</label>
+        <label class="filter-row-lux"><input type="radio" name="d"> Deze week</label>
+      </div>
+    </div>
+  </aside>
+</div>
+
+</body>
+</html>
