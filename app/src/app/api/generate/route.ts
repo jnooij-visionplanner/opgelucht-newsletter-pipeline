@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generateArticle } from "@/lib/services/article-generation";
+import { generateArticleSchema, formatZodError } from "@/lib/validations/api-schemas";
 
 /**
  * POST /api/generate — Generate an article draft for a topic cluster
@@ -10,16 +11,16 @@ import { generateArticle } from "@/lib/services/article-generation";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const clusterId = body.clusterId;
+    const parsed = generateArticleSchema.safeParse(body);
 
-    if (!clusterId || typeof clusterId !== "number") {
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: "clusterId is verplicht (number)" },
+        { error: formatZodError(parsed.error) },
         { status: 400 }
       );
     }
 
-    const result = await generateArticle(clusterId);
+    const result = await generateArticle(parsed.data.clusterId);
 
     return NextResponse.json(result, { status: 201 });
   } catch (error) {

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { newsItems, topicClusters } from "@/db/schema/news-items";
 import { eq } from "drizzle-orm";
+import { splitClusterSchema, formatZodError } from "@/lib/validations/api-schemas";
 
 /**
  * POST /api/clusters/split — Split a cluster into multiple new clusters
@@ -17,21 +18,16 @@ import { eq } from "drizzle-orm";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { clusterId, newClusters } = body;
+    const parsed = splitClusterSchema.safeParse(body);
 
-    if (!clusterId || typeof clusterId !== "number") {
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: "clusterId is verplicht" },
+        { error: formatZodError(parsed.error) },
         { status: 400 }
       );
     }
 
-    if (!Array.isArray(newClusters) || newClusters.length < 2) {
-      return NextResponse.json(
-        { error: "Minimaal 2 nieuwe clusters vereist voor splitsen" },
-        { status: 400 }
-      );
-    }
+    const { clusterId, newClusters } = parsed.data;
 
     // Verify original cluster exists
     const original = db
@@ -50,13 +46,6 @@ export async function POST(req: NextRequest) {
     // Create new clusters and reassign items
     const created = [];
     for (const nc of newClusters) {
-      if (!nc.title || !Array.isArray(nc.itemIds) || nc.itemIds.length === 0) {
-        return NextResponse.json(
-          { error: "Elk nieuw cluster moet een titel en itemIds bevatten" },
-          { status: 400 }
-        );
-      }
-
       const newCluster = db
         .insert(topicClusters)
         .values({

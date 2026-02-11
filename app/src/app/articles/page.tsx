@@ -17,16 +17,22 @@ interface ArticleRow {
 export default function ArticlesPage() {
   const [articles, setArticles] = useState<ArticleRow[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [total, setTotal] = useState(0);
 
   const loadArticles = useCallback(async () => {
     try {
+      setError(null);
       const res = await fetch("/api/articles");
       if (res.ok) {
         const data = await res.json();
-        setArticles(data);
+        setArticles(data.articles ?? data);
+        setTotal(data.total ?? (data.articles ?? data).length);
+      } else {
+        setError("Artikelen konden niet worden geladen.");
       }
     } catch {
-      console.error("Artikelen laden mislukt");
+      setError("Artikelen konden niet worden geladen.");
     } finally {
       setLoading(false);
     }
@@ -54,11 +60,19 @@ export default function ArticlesPage() {
           Gegenereerde artikelen
         </h2>
         <span className="font-[family-name:var(--font-body)] text-xs text-[#888] uppercase tracking-wider">
-          {articles.length} artikelen
+          {articles.length} van {total} artikelen
         </span>
       </div>
 
-      {articles.length === 0 ? (
+      {error && (
+        <div className="mx-8 mt-4 px-4 py-3 border-2 border-[#ff2d2d] bg-[#ff2d2d]/10">
+          <p className="font-[family-name:var(--font-body)] text-sm text-[#ff2d2d]">
+            {error}
+          </p>
+        </div>
+      )}
+
+      {!error && articles.length === 0 ? (
         <div className="px-8 py-12">
           <p className="text-[#888] font-[family-name:var(--font-body)] text-sm">
             Nog geen artikelen gegenereerd. Selecteer clusters op het dashboard en genereer artikelen.
