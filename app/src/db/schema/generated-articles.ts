@@ -38,6 +38,7 @@ export const systemPrompts = sqliteTable("system_prompts", {
   content: text("content").notNull(),
   version: integer("version").notNull().default(1),
   isActive: integer("is_active", { mode: "boolean" }).notNull().default(true),
+  comment: text("comment"),
   createdAt: text("created_at")
     .notNull()
     .$defaultFn(() => new Date().toISOString()),
