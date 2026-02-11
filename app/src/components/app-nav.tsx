@@ -4,10 +4,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const navItems = [
-  { href: "/", label: "Dashboard", prefix: "01" },
-  { href: "/rss-feeds", label: "RSS Feeds", prefix: "02" },
-  { href: "/categories", label: "Categorieën", prefix: "03" },
-  { href: "/prompts", label: "Prompts", prefix: "04" },
+  { href: "/dashboard", label: "Dashboard", prefix: "01" },
+  { href: "/articles", label: "Artikelen", prefix: "02" },
+  { href: "/rss-feeds", label: "RSS Feeds", prefix: "03" },
+  { href: "/categories", label: "Categorieën", prefix: "04" },
+  { href: "/prompts", label: "Prompts", prefix: "05" },
 ];
 
 export function AppNav() {
