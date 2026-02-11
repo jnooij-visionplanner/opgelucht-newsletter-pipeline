@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Archivo_Black, Space_Mono, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
+import { AppHeader } from "@/components/app-header";
+import { AppNav } from "@/components/app-nav";
 
 const archivoBlack = Archivo_Black({
   weight: "400",
@@ -36,7 +38,9 @@ export default function RootLayout({
       <body
         className={`${archivoBlack.variable} ${spaceMono.variable} ${ibmPlexMono.variable} antialiased bg-[#0a0a0a] text-[#f5f5f0]`}
       >
-        {children}
+        <AppHeader />
+        <AppNav />
+        <main>{children}</main>
       </body>
     </html>
   );
