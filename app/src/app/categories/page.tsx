@@ -23,16 +23,20 @@ export default function CategoriesPage() {
   const [formExternalId, setFormExternalId] = useState("");
   const [formDisplayOrder, setFormDisplayOrder] = useState("0");
   const [formError, setFormError] = useState<string | null>(null);
+  const [pageError, setPageError] = useState<string | null>(null);
 
   const loadCategories = useCallback(async () => {
     try {
+      setPageError(null);
       const res = await fetch("/api/categories");
       if (res.ok) {
         const data = await res.json();
         setCategories(data);
+      } else {
+        setPageError("Categorieën konden niet worden geladen.");
       }
     } catch {
-      console.error("Failed to load categories");
+      setPageError("Categorieën konden niet worden geladen.");
     } finally {
       setLoading(false);
     }
@@ -121,7 +125,7 @@ export default function CategoriesPage() {
       const res = await fetch(`/api/categories/${id}`, { method: "DELETE" });
       if (res.ok) loadCategories();
     } catch {
-      console.error("Failed to deactivate category");
+      setPageError("Categorie kon niet worden gedeactiveerd.");
     }
   };
 
@@ -134,7 +138,7 @@ export default function CategoriesPage() {
       });
       if (res.ok) loadCategories();
     } catch {
-      console.error("Failed to reactivate category");
+      setPageError("Categorie kon niet worden geheractiveerd.");
     }
   };
 
@@ -143,11 +147,20 @@ export default function CategoriesPage() {
 
   return (
     <div className="min-h-screen">
+      {/* Page Error */}
+      {pageError && (
+        <div className="mx-8 mt-4 px-4 py-3 border-2 border-[#ff2d2d] bg-[#ff2d2d]/10">
+          <p className="font-[family-name:var(--font-body)] text-sm text-[#ff2d2d]">
+            {pageError}
+          </p>
+        </div>
+      )}
+
       {/* Page Header */}
       <div className="flex items-center justify-between px-8 py-5 border-b-2 border-[#444] bg-[#2a2a2a]">
         <div>
           <h2 className="font-[family-name:var(--font-display)] text-2xl uppercase tracking-tight">
-            Categorie Management
+            Categorieën Beheer
           </h2>
           <p className="font-[family-name:var(--font-body)] text-xs text-[#888] uppercase tracking-widest mt-1">
             {active.length} actief — {inactive.length} inactief —{" "}

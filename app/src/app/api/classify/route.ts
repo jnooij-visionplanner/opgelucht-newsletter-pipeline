@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { classifyNewsItem } from "@/lib/services/llm-classification";
+import { classifyItemSchema, formatZodError } from "@/lib/validations/api-schemas";
 
 /**
  * POST /api/classify — Classify a news item as Binnenland/Buitenland
@@ -8,14 +9,16 @@ import { classifyNewsItem } from "@/lib/services/llm-classification";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { itemId } = body;
+    const parsed = classifyItemSchema.safeParse(body);
 
-    if (!itemId || typeof itemId !== "number") {
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: "itemId is required and must be a number" },
+        { error: formatZodError(parsed.error) },
         { status: 400 }
       );
     }
+
+    const { itemId } = parsed.data;
 
     const result = await classifyNewsItem(itemId);
 

@@ -101,9 +101,11 @@ export default function DashboardPage() {
       if (res.ok) {
         const json = await res.json();
         setData(json);
+      } else {
+        setStatusMessage({ text: "Dashboard data kon niet worden geladen.", type: "error" });
       }
     } catch {
-      console.error("Dashboard laden mislukt");
+      setStatusMessage({ text: "Dashboard data kon niet worden geladen.", type: "error" });
     } finally {
       setLoading(false);
     }

@@ -37,17 +37,25 @@ export const newsItems = sqliteTable(
     index("idx_news_items_guid").on(table.guid),
     index("idx_news_items_rss_feed_id").on(table.rssFeedId),
     index("idx_news_items_published_date").on(table.publishedDate),
+    index("idx_news_items_topic_cluster_id").on(table.topicClusterId),
+    index("idx_news_items_is_paywalled").on(table.isPaywalled),
   ]
 );
 
-export const topicClusters = sqliteTable("topic_clusters", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  title: text("title").notNull(),
-  primaryDate: text("primary_date").notNull(),
-  createdAt: text("created_at")
-    .notNull()
-    .$defaultFn(() => new Date().toISOString()),
-});
+export const topicClusters = sqliteTable(
+  "topic_clusters",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    title: text("title").notNull(),
+    primaryDate: text("primary_date").notNull(),
+    createdAt: text("created_at")
+      .notNull()
+      .$defaultFn(() => new Date().toISOString()),
+  },
+  (table) => [
+    index("idx_topic_clusters_primary_date").on(table.primaryDate),
+  ]
+);
 
 export type NewsItem = typeof newsItems.$inferSelect;
 export type NewNewsItem = typeof newsItems.$inferInsert;

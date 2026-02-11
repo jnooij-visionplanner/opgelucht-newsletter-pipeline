@@ -20,18 +20,22 @@ export default function PromptsPage() {
   const [formContent, setFormContent] = useState("");
   const [formComment, setFormComment] = useState("");
   const [formError, setFormError] = useState<string | null>(null);
+  const [pageError, setPageError] = useState<string | null>(null);
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const [activating, setActivating] = useState<number | null>(null);
 
   const loadPrompts = useCallback(async () => {
     try {
+      setPageError(null);
       const res = await fetch("/api/prompts");
       if (res.ok) {
         const data = await res.json();
         setPrompts(data);
+      } else {
+        setPageError("Prompts konden niet worden geladen.");
       }
     } catch {
-      console.error("Failed to load prompts");
+      setPageError("Prompts konden niet worden geladen.");
     } finally {
       setLoading(false);
     }
@@ -95,7 +99,7 @@ export default function PromptsPage() {
         loadPrompts();
       }
     } catch {
-      console.error("Failed to activate prompt");
+      setPageError("Prompt kon niet worden geactiveerd.");
     } finally {
       setActivating(null);
     }
@@ -122,6 +126,15 @@ export default function PromptsPage() {
 
   return (
     <div className="p-8 font-[family-name:var(--font-body)]">
+      {/* Page Error */}
+      {pageError && (
+        <div className="mb-4 px-4 py-3 border-2 border-[#ff2d2d] bg-[#ff2d2d]/10">
+          <p className="text-sm text-[#ff2d2d]">
+            {pageError}
+          </p>
+        </div>
+      )}
+
       {/* ── Header ─────────────────────────────────────────── */}
       <div className="flex items-start justify-between mb-8">
         <div>

@@ -11,7 +11,7 @@
 
 import { db } from "@/db";
 import { newsItems, type NewsItem } from "@/db/schema/news-items";
-import { eq, isNull, and } from "drizzle-orm";
+import { eq, isNull, and, or } from "drizzle-orm";
 import { detectPaywall, resolvePaywall } from "./archive-resolver";
 import { extractContent } from "./content-extractor";
 
@@ -174,36 +174,20 @@ export async function processAllItems(): Promise<ProcessingCycleResult> {
 
   // Get items that need processing:
   // - No fullContent yet
-  // - OR paywalled but not resolved
-  const itemsToProcess = db
+  // - OR paywalled but not resolved (may need archive resolution)
+  const allItems = db
     .select()
     .from(newsItems)
     .where(
-      and(
-        isNull(newsItems.fullContent)
+      or(
+        isNull(newsItems.fullContent),
+        and(
+          eq(newsItems.isPaywalled, true),
+          eq(newsItems.paywallResolved, false)
+        )
       )
     )
     .all();
-
-  // Also get paywalled but unresolved items that DO have content
-  // (they may need archive resolution)
-  const unresolvedPaywalled = db
-    .select()
-    .from(newsItems)
-    .where(
-      and(
-        eq(newsItems.isPaywalled, true),
-        eq(newsItems.paywallResolved, false)
-      )
-    )
-    .all();
-
-  // Merge and deduplicate
-  const itemMap = new Map<number, NewsItem>();
-  for (const item of [...itemsToProcess, ...unresolvedPaywalled]) {
-    itemMap.set(item.id, item);
-  }
-  const allItems = Array.from(itemMap.values());
 
   if (allItems.length === 0) {
     return {

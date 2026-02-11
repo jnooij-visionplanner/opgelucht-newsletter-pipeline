@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { newsItems, topicClusters } from "@/db/schema/news-items";
 import { eq, inArray } from "drizzle-orm";
+import { mergeClusterSchema, formatZodError } from "@/lib/validations/api-schemas";
 
 /**
  * POST /api/clusters/merge — Merge multiple clusters into one
@@ -11,14 +12,16 @@ import { eq, inArray } from "drizzle-orm";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { clusterIds } = body;
+    const parsed = mergeClusterSchema.safeParse(body);
 
-    if (!Array.isArray(clusterIds) || clusterIds.length < 2) {
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: "Minimaal 2 clusters vereist voor samenvoegen" },
+        { error: formatZodError(parsed.error) },
         { status: 400 }
       );
     }
+
+    const { clusterIds } = parsed.data;
 
     // Fetch all clusters
     const clusters = db

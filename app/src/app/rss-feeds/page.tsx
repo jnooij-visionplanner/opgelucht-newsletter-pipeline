@@ -19,18 +19,22 @@ export default function RssFeedsPage() {
   const [formUrl, setFormUrl] = useState("");
   const [formLabel, setFormLabel] = useState("");
   const [formError, setFormError] = useState<string | null>(null);
+  const [pageError, setPageError] = useState<string | null>(null);
   const [fetchStatus, setFetchStatus] = useState<string | null>(null);
   const [isFetching, setIsFetching] = useState(false);
 
   const loadFeeds = useCallback(async () => {
     try {
+      setPageError(null);
       const res = await fetch("/api/feeds");
       if (res.ok) {
         const data = await res.json();
         setFeeds(data);
+      } else {
+        setPageError("Feeds konden niet worden geladen.");
       }
     } catch {
-      console.error("Failed to load feeds");
+      setPageError("Feeds konden niet worden geladen.");
     } finally {
       setLoading(false);
     }
@@ -109,7 +113,7 @@ export default function RssFeedsPage() {
         loadFeeds();
       }
     } catch {
-      console.error("Failed to deactivate feed");
+      setPageError("Feed kon niet worden gedeactiveerd.");
     }
   };
 
@@ -124,7 +128,7 @@ export default function RssFeedsPage() {
         loadFeeds();
       }
     } catch {
-      console.error("Failed to reactivate feed");
+      setPageError("Feed kon niet worden geheractiveerd.");
     }
   };
 
@@ -160,11 +164,20 @@ export default function RssFeedsPage() {
 
   return (
     <div className="min-h-screen">
+      {/* Page Error */}
+      {pageError && (
+        <div className="mx-8 mt-4 px-4 py-3 border-2 border-[#ff2d2d] bg-[#ff2d2d]/10">
+          <p className="font-[family-name:var(--font-body)] text-sm text-[#ff2d2d]">
+            {pageError}
+          </p>
+        </div>
+      )}
+
       {/* Page Header */}
       <div className="flex items-center justify-between px-8 py-5 border-b-2 border-[#444] bg-[#2a2a2a]">
         <div>
           <h2 className="font-[family-name:var(--font-display)] text-2xl uppercase tracking-tight">
-            RSS Feed Management
+            RSS Feed Beheer
           </h2>
           <p className="font-[family-name:var(--font-body)] text-xs text-[#888] uppercase tracking-widest mt-1">
             {activeFeeds.length} actief — {inactiveFeeds.length} inactief —{" "}
